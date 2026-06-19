@@ -7,14 +7,29 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Login = () => {
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const user = Object.fromEntries(formData.entries());
+
+        await authClient.signIn.email({
+            ...user,
+            callbackURL: "/",
+        });
     };
+
+    const handleGoogleSignIn = async()=>{
+        const data = await authClient.signIn.social({
+         provider: "google",
+         callbackURL: "/",
+      });
+       
+      }
 
     return (
         <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
 
-       
+
             <div className="absolute inset-0 -z-10">
                 <Image
                     src="/images/register.png"
@@ -71,7 +86,7 @@ const Login = () => {
                         <div className="h-px bg-slate-300 flex-1" />
                     </div>
 
-                    <button
+                    <button onClick={handleGoogleSignIn}
                         type="button"
                         className="w-full flex items-center justify-center gap-2 border py-3 rounded-lg hover:bg-slate-50 transition"
                     >

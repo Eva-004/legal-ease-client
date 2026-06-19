@@ -2,28 +2,52 @@
 
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Button } from "@heroui/react";
+import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { useState } from "react";
+
 
 const Register = () => {
     const router = useRouter();
-
-    const handleRegister = (e) => {
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const onSubmit = async (e) => {
         e.preventDefault();
 
-        const fakeJWT = "token123";
+        const formData = new FormData(e.currentTarget);
+        const user = Object.fromEntries(formData.entries());
 
-        if (fakeJWT) {
-            router.push("/choose-role");
+        if (user.password !== user.confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
         }
+
+        await authClient.signUp.email({
+            ...user,
+        });
+
+        router.push("/");
+
     };
 
+    const handleGoogleSignIn = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/",
+        });
+        if (user.password !== user.confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
+        }
+    }
+
     return (
-        <section className="relative min-h-screen flex items-center justify-center px-4">
-            
-            
+        <section className="relative min-h-screen flex items-center justify-center py-16 px-4">
+
+
             <div className="absolute inset-0 -z-10">
                 <Image
                     src="/images/register.png"
@@ -38,18 +62,102 @@ const Register = () => {
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg"
+                className="w-full max-w-lg bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg"
             >
                 <h2 className="text-2xl font-bold text-center mb-6">
                     Create Account
                 </h2>
 
-                <form onSubmit={handleRegister} className="space-y-4">
-                    <input type="text" placeholder="Full Name" className="w-full px-4 py-3 border rounded-lg" />
-                    <input type="email" placeholder="Email" className="w-full px-4 py-3 border rounded-lg" />
-                    <input type="password" placeholder="Password" className="w-full px-4 py-3 border rounded-lg" />
-                    <input type="password" placeholder="Confirm Password" className="w-full px-4 py-3 border rounded-lg" />
+                <Form onSubmit={onSubmit} className="space-y-4">
+                    <TextField isRequired name="name" type="text">
+                        <Label>Name</Label>
+                        <Input placeholder="Enter your name" className="w-full px-4 py-3 border rounded-lg" />
+                        <FieldError />
+                    </TextField>
+                    <TextField
+                        isRequired
+                        name="email"
+                        type="email"
+                        validate={(value) => {
+                            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+                                return "Please enter a valid email address";
+                            }
 
+                            return null;
+                        }}
+                    >
+                        <Label>Email</Label>
+                        <Input className='w-full px-4 py-3 border rounded-lg' placeholder="john@example.com" />
+                        <FieldError />
+                    </TextField>
+
+                    <TextField
+                        isRequired
+                        minLength={8}
+                        name="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        validate={(value) => {
+                            if (value.length < 6) {
+                                return "Password must be at least 8 characters";
+                            }
+                            if (!/[A-Z]/.test(value)) {
+                                return "Password must contain at least one uppercase letter";
+                            }
+                            if (!/[a-z]/.test(value)) {
+                                return "Password must contain at least one lowercase letter";
+                            }
+                            if (!/[0-9]/.test(value)) {
+                                return "Password must contain at least one number";
+                            }
+
+                            return null;
+                        }}
+                    >
+                        <Label>Password</Label>
+                        <Input className='w-full px-4 py-3 border rounded-lg' placeholder="Enter your password" />
+                        <Description>
+                            Must be at least 6 characters with 1 uppercase, 1 lowercase and 1 number
+                        </Description>
+                        <FieldError />
+                    </TextField>
+                    <TextField
+                        isRequired
+                        name="confirmPassword"
+                        type="password"
+                        validate={(value) => {
+                            if (value !== password) {
+                                return "Passwords do not match";
+                            }
+                            return null;
+                        }}
+                    >
+                        <Input className="w-full px-4 py-3 border rounded-lg" 
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+
+                        {confirmPassword && password !== confirmPassword && (
+                            <Description className="text-danger">
+                                Passwords do not match
+                            </Description>
+                        )}
+
+                        <FieldError />
+                    </TextField>
+                    <select
+                        name="role"
+                        required
+                        className="w-full px-4 py-3 border rounded-lg bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
+                    >
+                        <option defaultValue="" disabled >
+                            Select Role
+                        </option>
+                        <option defaultValue="user">User</option>
+                        <option defaultValue="lawyer">Lawyer</option>
+                    </select>
                     <Button type="submit" className="w-full bg-[#1E3A8A] text-white">
                         Register
                     </Button>
@@ -60,7 +168,7 @@ const Register = () => {
                         <div className="h-px bg-slate-300 flex-1" />
                     </div>
 
-                    <button className="w-full flex items-center justify-center gap-2 border py-3 rounded-lg cursor-pointer">
+                    <button onClick={handleGoogleSignIn} className="w-full flex items-center justify-center gap-2 border py-3 rounded-lg cursor-pointer">
                         <FcGoogle className="text-xl" />
                         Continue with Google
                     </button>
@@ -71,7 +179,7 @@ const Register = () => {
                             Login
                         </Link>
                     </p>
-                </form>
+                </Form>
             </motion.div>
         </section>
     );
