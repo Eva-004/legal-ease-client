@@ -48,10 +48,10 @@ const Navbar = () => {
 
                     <div className="hidden md:flex gap-3">
                         <Link href="/login">
-                            <button className="px-5 py-2 rounded-xl border">Login</button>
+                            <button className="px-5 py-2 rounded-xl border hover:border-0 hover:bg-[#1E3A8A] hover:text-white cursor-pointer hover:scale-105  transition-all duration-300 shadow-lg">Login</button>
                         </Link>
                         <Link href="/register">
-                            <button className="px-5 py-2 rounded-xl bg-[#1E3A8A] text-white">
+                            <button className="px-5 py-2 rounded-xl bg-[#1E3A8A] text-white cursor-pointer hover:scale-105  transition-all duration-300 shadow-lg hover:bg-slate-200 hover:text-black">
                                 Register
                             </button>
                         </Link>
