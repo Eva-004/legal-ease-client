@@ -6,6 +6,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearchOutline, IoClose } from "react-icons/io5";
 import { useState } from "react";
 import NavLink from "./NavLink";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { Button } from "@heroui/react";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -16,6 +20,21 @@ const Navbar = () => {
             <li><NavLink href={'/lawyers'}>Browse Lawyers</NavLink></li>
         </>
     );
+    
+     const loginRegister = <>
+        <li><Link href={'/login'} >Login</Link></li>
+        <li><Link href={'/register'} >Register</Link></li>
+
+    </>
+    const userData = authClient.useSession();
+    const user = userData?.data?.user;
+    console.log(user);
+    const router = useRouter();
+    const handleLogOut = async () => {
+        await authClient.signOut();
+        toast.success('Logout successfully!')
+        router.push('/login')
+    }
 
     return (
         <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl">
@@ -46,7 +65,8 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <div className="hidden md:flex gap-3">
+                   {!user &&
+                       <div className="hidden md:flex gap-3">
                         <Link href="/login">
                             <button className="px-5 py-2 rounded-xl border hover:border-0 hover:bg-[#1E3A8A] hover:text-white cursor-pointer hover:scale-105  transition-all duration-300 shadow-lg">Login</button>
                         </Link>
@@ -56,6 +76,16 @@ const Navbar = () => {
                             </button>
                         </Link>
                     </div>
+                   }
+
+                   { user &&
+                        <div className="hidden md:flex gap-3">
+                        
+                            <button onClick={handleLogOut} className="px-5 py-2 rounded-xl border hover:border-0 hover:bg-[#1E3A8A] hover:text-white cursor-pointer hover:scale-105  transition-all duration-300 shadow-lg">LogOut</button>
+                        
+                        
+                    </div>
+                   }
 
                     <div className="md:hidden relative">
 
@@ -82,13 +112,10 @@ const Navbar = () => {
                                 <ul className="space-y-2" onClick={() => setOpen(false)}>
                                     {links}
 
-                                    <li>
-                                        <Link href="/login">Login</Link>
-                                    </li>
-
-                                    <li>
-                                        <Link href="/register">Register</Link>
-                                    </li>
+                                     {!user && loginRegister}
+                                     {user && 
+                                       <li><Button onClick={handleLogOut} variant="outline" className={'border-0 rounded-none'}>Logout</Button></li>
+                                     }
                                 </ul>
 
                             </div>

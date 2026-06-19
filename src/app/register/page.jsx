@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 
 const Register = () => {
@@ -96,8 +97,7 @@ const Register = () => {
                         minLength={8}
                         name="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                       
                         validate={(value) => {
                             if (value.length < 6) {
                                 return "Password must be at least 8 characters";
@@ -116,7 +116,8 @@ const Register = () => {
                         }}
                     >
                         <Label>Password</Label>
-                        <Input className='w-full px-4 py-3 border rounded-lg' placeholder="Enter your password" />
+                        <Input  value={password}
+                        onChange={(e) => setPassword(e.target.value)} className='w-full px-4 py-3 border rounded-lg' placeholder="Enter your password" />
                         <Description>
                             Must be at least 6 characters with 1 uppercase, 1 lowercase and 1 number
                         </Description>

@@ -5,6 +5,8 @@ import { Button } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const handleLogin = async (e) => {
@@ -12,17 +14,33 @@ const Login = () => {
         const formData = new FormData(e.currentTarget);
         const user = Object.fromEntries(formData.entries());
 
-        await authClient.signIn.email({
+        const { data, error } = await authClient.signIn.email({
             ...user,
             callbackURL: "/",
         });
+        toast.success("Login Successfully!")
+
+        if(error){
+        toast.error(error)
+       }
+       else{
+        toast.success("Login successfully!")
+       }
     };
+    
 
     const handleGoogleSignIn = async()=>{
-        const data = await authClient.signIn.social({
+        const { data, error } = await authClient.signIn.social({
          provider: "google",
          callbackURL: "/",
       });
+
+      if(error){
+        toast.error(error)
+       }
+       else{
+        toast.success("Login successfully!")
+       }
        
       }
 
@@ -54,12 +72,14 @@ const Login = () => {
 
                     <input
                         type="email"
+                          name="email"
                         placeholder="Email"
                         className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                     />
 
                     <input
                         type="password"
+                         name="password"
                         placeholder="Password"
                         className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
                     />
