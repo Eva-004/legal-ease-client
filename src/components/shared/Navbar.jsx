@@ -10,6 +10,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Button } from "@heroui/react";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -40,6 +41,43 @@ const Navbar = () => {
         <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex h-20 items-center justify-between">
+
+                     <div className="md:hidden relative">
+
+                        <button
+                            onClick={() => setOpen(!open)}
+                            className="btn btn-ghost"
+                        >
+                            {open ? (
+                                <IoClose size={24} />
+                            ) : (
+                                <GiHamburgerMenu size={24} />
+                            )}
+                        </button>
+
+                        {open && (
+                            <div className="absolute left-0 mt-3 w-72 bg-white border shadow-xl rounded-xl p-4 z-50">
+
+                                <input
+                                    type="text"
+                                    placeholder="Search lawyers..."
+                                    className="input input-bordered w-full mb-3"
+                                />
+
+                                <ul className="space-y-2" onClick={() => setOpen(false)}>
+                                    {links}
+
+                                     {!user && loginRegister}
+                                     {user && 
+                                       <li><Button onClick={handleLogOut} variant="outline" className={'border-0 rounded-none'}>Logout</Button></li>
+                                     }
+                                </ul>
+
+                            </div>
+                        )}
+
+                    </div>
+
 
                     <Link href="/" className="flex items-center gap-3">
                         <Image src="/images/logo.jpg" alt="logo" width={50} height={50} className="rounded-full" />
@@ -79,50 +117,15 @@ const Navbar = () => {
                    }
 
                    { user &&
-                        <div className="hidden md:flex gap-3">
+                        <div className=" flex gap-3">
                         
-                            <button onClick={handleLogOut} className="px-5 py-2 rounded-xl border hover:border-0 hover:bg-[#1E3A8A] hover:text-white cursor-pointer hover:scale-105  transition-all duration-300 shadow-lg">LogOut</button>
+                            <ProfileDropdown handleLogOut={handleLogOut} image={user?.image} name={user?.name} email={user?.email}></ProfileDropdown>
                         
                         
                     </div>
                    }
 
-                    <div className="md:hidden relative">
-
-                        <button
-                            onClick={() => setOpen(!open)}
-                            className="btn btn-ghost"
-                        >
-                            {open ? (
-                                <IoClose size={24} />
-                            ) : (
-                                <GiHamburgerMenu size={24} />
-                            )}
-                        </button>
-
-                        {open && (
-                            <div className="absolute right-0 mt-3 w-72 bg-white border shadow-xl rounded-xl p-4 z-50">
-
-                                <input
-                                    type="text"
-                                    placeholder="Search lawyers..."
-                                    className="input input-bordered w-full mb-3"
-                                />
-
-                                <ul className="space-y-2" onClick={() => setOpen(false)}>
-                                    {links}
-
-                                     {!user && loginRegister}
-                                     {user && 
-                                       <li><Button onClick={handleLogOut} variant="outline" className={'border-0 rounded-none'}>Logout</Button></li>
-                                     }
-                                </ul>
-
-                            </div>
-                        )}
-
-                    </div>
-
+                   
                 </div>
             </div>
         </nav>
