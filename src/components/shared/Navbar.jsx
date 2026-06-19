@@ -7,7 +7,7 @@ import { IoSearchOutline, IoClose } from "react-icons/io5";
 import { useState } from "react";
 import NavLink from "./NavLink";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Button } from "@heroui/react";
 import ProfileDropdown from "./ProfileDropdown";
@@ -27,10 +27,16 @@ const Navbar = () => {
         <li><Link href={'/register'} >Register</Link></li>
 
     </>
+     const router = useRouter();
     const userData = authClient.useSession();
     const user = userData?.data?.user;
     console.log(user);
-    const router = useRouter();
+
+    const pathName = usePathname();
+    if(pathName.includes("dashboard")){
+        return null;
+    }
+
     const handleLogOut = async () => {
         await authClient.signOut();
         toast.success('Logout successfully!')
@@ -119,7 +125,7 @@ const Navbar = () => {
                    { user &&
                         <div className=" flex gap-3">
                         
-                            <ProfileDropdown handleLogOut={handleLogOut} image={user?.image} name={user?.name} email={user?.email}></ProfileDropdown>
+                            <ProfileDropdown handleLogOut={handleLogOut} image={user?.image} name={user?.name} email={user?.email} role={user?.role}></ProfileDropdown>
                         
                         
                     </div>

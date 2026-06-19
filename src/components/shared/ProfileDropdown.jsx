@@ -1,6 +1,7 @@
 import {ArrowRightFromSquare, Gear, Persons} from "@gravity-ui/icons";
 import {Avatar, Dropdown, Label} from "@heroui/react";
-const ProfileDropdown = ({handleLogOut,image,name,email}) => {
+const ProfileDropdown = ({handleLogOut,image,name,email,role}) => {
+
     return (
        <Dropdown>
   <Dropdown.Trigger className="rounded-full cursor-pointer">
@@ -27,7 +28,7 @@ const ProfileDropdown = ({handleLogOut,image,name,email}) => {
 
    
     <Dropdown.Menu>
-      <Dropdown.Item key="dashboard" href="/dashboard">
+      <Dropdown.Item key="dashboard" href={`/dashboard/${role}`}>
         <div className="flex items-center gap-2">
           <Gear className="size-4" />
           Dashboard

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import { Button, Description, FieldError, Form, Input, Label, TextField,Select, ListBox } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,11 +21,7 @@ const Register = () => {
         const formData = new FormData(e.currentTarget);
         const user = Object.fromEntries(formData.entries());
 
-        if (user.password !== user.confirmPassword) {
-            toast.error("Passwords do not match");
-            return;
-        }
-
+       
         await authClient.signUp.email({
             ...user,
         });
@@ -148,17 +144,25 @@ const Register = () => {
 
                         <FieldError />
                     </TextField>
-                    <select
-                        name="role"
-                        required
-                        className="w-full px-4 py-3 border rounded-lg bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]"
-                    >
-                        <option defaultValue="" disabled >
-                            Select Role
-                        </option>
-                        <option defaultValue="user">User</option>
-                        <option defaultValue="lawyer">Lawyer</option>
-                    </select>
+                   <Select isRequired name="role" placeholder="Select one"  defaultSelectedKeys={["user"]}>
+                <Label>Register As</Label>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover>
+                  <ListBox>
+                    <ListBox.Item id="user" textValue="user">
+                      User
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                    <ListBox.Item id="lawyer" textValue="lawyer">
+                      Lawyer
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
+              </Select>
                     <Button type="submit" className="w-full bg-[#1E3A8A] text-white">
                         Register
                     </Button>
