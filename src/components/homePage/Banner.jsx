@@ -30,7 +30,7 @@ const Banner = () => {
         },
         {
             title: "Professional Legal Guidance Made Easy",
-            image: "/images/banner3.jpeg",
+            image: "/images/banner3.jpg",
             description:
                 "Get expert legal support for family, business, property, and corporate matters.",
         },
@@ -113,18 +113,18 @@ const Banner = () => {
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.8, delay: 0.4 }}
                                     >
-                                       <Link href={'/lawyers'}>
-                                        <Button
-                                            
-                                            size="lg"
-                                            className="font-semibold bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] text-white"
-                                        >
-                                            <span className="flex  items-center gap-2">
-                                                Browse Lawyers
-                                                <HiOutlineArrowRight className="text-xl" />
-                                            </span>
-                                        </Button>
-                                       </Link>
+                                        <Link href={'/lawyers'}>
+                                            <Button
+
+                                                size="lg"
+                                                className="font-semibold bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] text-white hover:scale-105  transition-all duration-300 shadow-lg"
+                                            >
+                                                <span className="flex  items-center gap-2">
+                                                    Browse Lawyers
+                                                    <HiOutlineArrowRight className="text-xl" />
+                                                </span>
+                                            </Button>
+                                        </Link>
                                     </motion.div>
                                 </div>
                             </div>
