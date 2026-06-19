@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import Image from "next/image";
 
 const Register = () => {
     const router = useRouter();
@@ -12,10 +13,7 @@ const Register = () => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        // এখানে তোমার API call হবে
-        // সফল হলে:
-
-        const fakeJWT = "token123"; // backend থেকে আসবে
+        const fakeJWT = "token123";
 
         if (fakeJWT) {
             router.push("/choose-role");
@@ -23,11 +21,24 @@ const Register = () => {
     };
 
     return (
-        <section className="min-h-screen bg-slate-200 flex items-center justify-center px-4">
+        <section className="relative min-h-screen flex items-center justify-center px-4">
+            
+            
+            <div className="absolute inset-0 -z-10">
+                <Image
+                    src="/images/register.png"
+                    alt="register background"
+                    fill
+                    className="object-cover"
+                    priority
+                />
+                <div className="absolute inset-0 bg-slate-600/40" />
+            </div>
+
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg"
+                className="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg"
             >
                 <h2 className="text-2xl font-bold text-center mb-6">
                     Create Account
