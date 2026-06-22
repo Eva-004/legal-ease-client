@@ -3,13 +3,16 @@ import SearchBar from '@/components/ui/SearchBar';
 import React from 'react';
 import FilteredByStatus from '../../components/ui/FilteredByStatus';
 import LawyerCard from '@/components/ui/LawyerCard';
+import EmptyState from '@/components/ui/EmptyState';
 
 
 const LawyersPage = async({searchParams}) => {
     const params = await searchParams;
     const search = params?.search || ""
     const specialization = params?.specialization || ""
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers?search=${search}&specialization=${specialization}`,{
+    const status = params?.status || ""
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers?search=${search}&specialization=${specialization}&status=${status}`,{
         cache: "no-store"
     });
     const data = await res.json();
@@ -34,11 +37,14 @@ const LawyersPage = async({searchParams}) => {
              
 
             </div>
-            <div className='mt-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+            {
+                data.length===0 ? <EmptyState/>:
+                <div className='mt-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
                 {
                     data.map(lawyer => <LawyerCard key={lawyer._id} lawyer={lawyer}></LawyerCard>)
                 }
             </div>
+            }
         </div>
     );
 };

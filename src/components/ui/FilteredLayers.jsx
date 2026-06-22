@@ -3,14 +3,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 const FilteredLayers = () => {
    const lawyerSpecializationCategories = [
-  { key: "corporate-law", label: "Corporate Law" },
-  { key: "family-law", label: "Family Law" },
-  { key: "criminal-law", label: "Criminal Law" },
-  { key: "property-law", label: "Property Law" },
-  { key: "cyber-law", label: "Cyber Law" },
-  { key: "civil-law", label: "Civil Law" },
-  { key: "tax-law", label: "Tax Law" },
-  { key: "immigration-law", label: "Immigration Law" }
+  { key: "Corporate Law", label: "Corporate Law" },
+  { key: "Family Law", label: "Family Law" },
+  { key: "Criminal Law", label: "Criminal Law" },
+  { key: "Property Law", label: "Property Law" },
+  { key: "Cyber Law", label: "Cyber Law" },
+  { key: "Civil Law", label: "Civil Law" },
+  { key: "Tax Law", label: "Tax Law" },
+  { key: "Immigration Law", label: "Immigration Law" }
 ];
     const router = useRouter();
     const searchParams = useSearchParams()
