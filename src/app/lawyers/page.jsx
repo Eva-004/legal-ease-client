@@ -1,7 +1,9 @@
 import FilteredLayers from '@/components/ui/FilteredLayers';
 import SearchBar from '@/components/ui/SearchBar';
 import React from 'react';
-import FilteredByStatus from './FilteredByStatus';
+import FilteredByStatus from '../../components/ui/FilteredByStatus';
+import LawyerCard from '@/components/ui/LawyerCard';
+
 
 const LawyersPage = async({searchParams}) => {
     const params = await searchParams;
@@ -32,9 +34,9 @@ const LawyersPage = async({searchParams}) => {
              
 
             </div>
-            <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-6'>
+            <div className='mt-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
                 {
-                    // data.map(lawyer => <LawyerCard key={lawyer._id} lawyer={lawyer}></LawyerCard>)
+                    data.map(lawyer => <LawyerCard key={lawyer._id} lawyer={lawyer}></LawyerCard>)
                 }
             </div>
         </div>
