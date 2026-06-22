@@ -39,7 +39,7 @@ export default function DashboardSidebar() {
   lawyer: [
     { icon: FaHouse, label: "Home", href: "/" },
     { icon: FaScaleBalanced, label: "Hiring Requests", href: "/dashboard/lawyer/hiring-history" },
-    { icon: FaFileLines, label: "Legal Profile", href: "/dashboard/lawyer/manage-legal-profile" },
+    { icon: FaFileLines, label: "Manage Legal Profile", href: "/dashboard/lawyer/manage-legal-profile" },
   ],
 
   admin: [
