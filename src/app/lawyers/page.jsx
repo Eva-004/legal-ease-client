@@ -1,8 +1,17 @@
 import FilteredLayers from '@/components/ui/FilteredLayers';
 import SearchBar from '@/components/ui/SearchBar';
 import React from 'react';
+import FilteredByStatus from './FilteredByStatus';
 
-const LawyersPage = () => {
+const LawyersPage = async({searchParams}) => {
+    const params = await searchParams;
+    const search = params?.search || ""
+    const specialization = params?.specialization || ""
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers?search=${search}&specialization=${specialization}`,{
+        cache: "no-store"
+    });
+    const data = await res.json();
+    console.log(data);
     return (
         <div className='py-10   w-11/12 mx-auto'>
             <div className='text-center space-y-2'>
@@ -16,12 +25,16 @@ const LawyersPage = () => {
             <div className=' flex flex-col md:flex-row gap-4 items-center mt-4'>
                 <SearchBar></SearchBar>
 
-               <FilteredLayers/>
+               <div className='md:mt-8 flex items-center'>
+                  <FilteredLayers/>
+                  <FilteredByStatus/>
+               </div>
+             
 
             </div>
             <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-6'>
                 {
-                    // data.map(idea => <IdeaCard key={idea._id} idea={idea}></IdeaCard>)
+                    // data.map(lawyer => <LawyerCard key={lawyer._id} lawyer={lawyer}></LawyerCard>)
                 }
             </div>
         </div>

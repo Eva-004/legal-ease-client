@@ -15,7 +15,7 @@ const FilteredLayers = () => {
     const router = useRouter();
     const searchParams = useSearchParams()
     const [selectedCategory, setSelectedCategory] = useState(
-        searchParams.get('category') || ''
+        searchParams.get('specialization') || ''
     );
 
     const handleFilter = (key) => {
@@ -24,20 +24,20 @@ const FilteredLayers = () => {
         if (key === 'all') {
             router.push('/lawyers')
         } else {
-            router.push(`/lawyers?category=${value}`);
+            router.push(`/lawyers?specialization=${value}`);
         }
     }
 
 
     return (
-        <div className="md:mt-8">
+        <div className="">
             <div className="dropdown dropdown-start">
                 <div tabIndex={0} role="button" className="btn bg-[#9badd9]  font-bold m-1">Specialization</div>
                 <ul tabIndex="-1" className="dropdown-content menu bg-base-100 dark:bg-gray-800  rounded-box z-40 w-52 p-2 shadow-sm">
                     <li  onClick={() => handleFilter('all')}
-                       className={selectedCategory === 'all' ? 'active bg-gradient-to-r from-pink-600 to-purple-600 text-white' : ''} > <a>All</a></li>
+                       className={selectedCategory === 'all' ? 'active bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] text-white' : ''} > <a>All</a></li>
                     {
-                        lawyerSpecializationCategories.map(category => <li key={category.key} onClick={() => handleFilter(category.key)} className={selectedCategory === category.key ? 'active bg-gradient-to-r from-pink-600 to-purple-600 text-white' : ''}>
+                        lawyerSpecializationCategories.map(category => <li key={category.key} onClick={() => handleFilter(category.key)} className={selectedCategory === category.key ? 'active bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] text-white' : ''}>
                             <a >{category.label}</a>
                         </li>)
                     }
