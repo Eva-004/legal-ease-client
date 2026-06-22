@@ -44,7 +44,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl">
+        <nav className="sticky top-0 z-50 shadow bg-white/80 backdrop-blur-xl">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex h-20 items-center justify-between">
 
@@ -75,7 +75,7 @@ const Navbar = () => {
 
                                      {!user && loginRegister}
                                      {user && 
-                                       <li><Button onClick={handleLogOut} variant="outline" className={'border-0 rounded-none'}>Logout</Button></li>
+                                       <li><button onClick={handleLogOut}  className={'border-0 rounded-none block'}>Logout</button></li>
                                      }
                                 </ul>
 
