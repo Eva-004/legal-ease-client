@@ -27,7 +27,7 @@ const Register = () => {
         });
 
         router.push("/");
-
+      toast.success("Register complete successfully!")
     };
 
     const handleGoogleSignIn = async () => {
@@ -39,6 +39,7 @@ const Register = () => {
             toast.error("Passwords do not match");
             return;
         }
+        toast.success("Register complete successfully!")
     }
 
     return (

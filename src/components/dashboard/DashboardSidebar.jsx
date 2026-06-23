@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 import {
-  FaHouse,
   FaUser,
   FaFileLines,
   FaCommentDots,
@@ -18,6 +17,7 @@ import {
 import { Button, Drawer } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { Bars } from "@gravity-ui/icons";
+import { RxDashboard } from "react-icons/rx";
 
 
 
@@ -27,23 +27,23 @@ export default function DashboardSidebar() {
  
    const userData = authClient.useSession();
       const user = userData?.data?.user;
-  const role = user?.role || "user";
+  const role = user?.role??"user";
   const dashboardItems = {
    user: [
-    { icon: FaHouse, label: "Home", href: "/" },
+    { icon: RxDashboard, label: "Dashboard", href: "/dashboard/user" },
     { icon: FaUser, label: "Update Profile", href: "/dashboard/user/update-profile" },
     { icon: FaFileLines, label: "Hiring History", href: "/dashboard/user/hiring-history" },
     { icon: FaCommentDots, label: "Comments", href: "/dashboard/user/comments" },
   ],
 
   lawyer: [
-    { icon: FaHouse, label: "Home", href: "/" },
+    { icon: RxDashboard, label: "Dashboard", href: "/dashboard/lawyer" },
     { icon: FaScaleBalanced, label: "Hiring Requests", href: "/dashboard/lawyer/hiring-history" },
     { icon: FaFileLines, label: "Manage Legal Profile", href: "/dashboard/lawyer/manage-legal-profile" },
   ],
 
   admin: [
-    { icon: FaHouse, label: "Home", href: "/" },
+    { icon: RxDashboard, label: "Dashboard", href: "/dashboard/admin" },
     { icon: FaUsers, label: "Manage Users", href: "/dashboard/admin/manage-users" },
     { icon: FaCreditCard, label: "Transactions", href: "/dashboard/admin/all-transactions" },
     { icon: FaChartLine, label: "Analytics", href: "/dashboard/admin/analytics" },
@@ -52,12 +52,12 @@ export default function DashboardSidebar() {
   const navItems = dashboardItems[role] || dashboardItems.user;
 
   const NavList = <>
-    <nav className="flex flex-col gap-1">
+    <nav className="flex flex-col  gap-1">
       {navItems.map((item) => (
         <Link
           key={item.label}
           href={item.href}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
+          className="flex items-center text-white gap-3 rounded-xl px-3 py-2.5 text-sm  transition-colors hover:bg-neutral-500"
         >
           <item.icon className="size-5 text-muted-foreground" />
           {item.label}
@@ -70,19 +70,18 @@ export default function DashboardSidebar() {
     <>
       {/* Mobile Button */}
       <Button
-        className="md:hidden block"
+        className="md:hidden block mt-4 ml-4"
         variant="secondary"
         onPress={() => setOpen(true)}
       >
-        <Bars />
-        Menu
+        <Bars  />
       </Button>
 
       {/* Desktop Sidebar */}
-      <div className="hidden md:flex bg-white w-60 border-r min-h-screen">
+      <div className="hidden md:flex bg-[#1E3A8A]  w-60 border-r min-h-screen">
         <div className="w-full p-3">
           {/* Logo */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center  gap-3 mb-6">
             <Image
               src="/images/logo.jpg"
               width={50}
@@ -90,7 +89,7 @@ export default function DashboardSidebar() {
               alt="logo"
               className="rounded-full"
             />
-            <h1 className="text-xl font-bold">LegalEase</h1>
+            <h1 className="text-2xl font-bold text-white">LegalEase</h1>
           </div>
 
           {NavList}
@@ -102,7 +101,7 @@ export default function DashboardSidebar() {
         <Drawer.Content placement="left">
           <Drawer.Dialog>
             <Drawer.Header>
-              <Drawer.Heading>Navigation</Drawer.Heading>
+              <Drawer.Heading>LegalEase</Drawer.Heading>
             </Drawer.Header>
 
             <Drawer.Body>

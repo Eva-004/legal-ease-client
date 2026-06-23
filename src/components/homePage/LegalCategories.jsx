@@ -36,7 +36,7 @@ const LegalCategories = () => {
                             transition={{ delay: index * 0.1 }}
                         >
                             <Link
-                                href={`/lawyers?category=${cat.category}`}
+                                href={`/lawyers?specialization=${cat.name}`}
                                 className="block bg-white rounded-xl p-4 text-center shadow hover:bg-blue-50 transition"
                             >
                                 <div className="flex flex-col items-center gap-2">
