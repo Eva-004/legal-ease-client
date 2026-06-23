@@ -13,9 +13,10 @@ import {
 
 import { MdVerified } from "react-icons/md";
 import Image from "next/image";
+import HireConfirmModal from "./HireConfirmModal";
 
 const LawyerDetailsCard = ({ lawyer }) => {
-
+       
     return (
         <div className="w-11/12 mx-auto py-10">
 
@@ -80,15 +81,8 @@ const LawyerDetailsCard = ({ lawyer }) => {
 
                         </div>
 
-                     
-                        <Button
-                            
-                            size="lg"
-                            className="mt-6 bg-[#1E3A8A] font-semibold flex items-center gap-2"
-                        >
-                            <FaHandHoldingHeart className="text-pink-200" />
-                            Hire Lawyer
-                        </Button>
+                     <HireConfirmModal lawyer={lawyer}/>
+                       
 
                     </div>
                 </div>

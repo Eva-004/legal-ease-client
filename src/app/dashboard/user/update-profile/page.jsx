@@ -58,13 +58,14 @@ const UpdateProfile = () => {
       if (file) {
         imageUrl = await uploadImage(file);
       }
-
+     const { data: tokenData } = await authClient.token();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update-profile`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`
           },
           body: JSON.stringify({
             email: user.email,
@@ -86,7 +87,7 @@ const UpdateProfile = () => {
     }
   };
 
-  // initials helper
+  
   const getInitials = (name = "") => {
     return name
       .split(" ")
@@ -111,12 +112,12 @@ const UpdateProfile = () => {
           </p>
         </div>
 
-        {/* Avatar */}
+     
         <div className="flex flex-col items-center gap-3 mb-6">
 
           <Avatar className="w-24 h-24 text-lg font-semibold shadow-md border-4 border-white">
 
-            {/* Image */}
+           
             {image ? <Avatar.Image src={image} alt={name} /> : null}
 
             {/* Fallback */}
@@ -141,7 +142,7 @@ const UpdateProfile = () => {
           </p>
         </div>
 
-        {/* Form */}
+        
         <Form onSubmit={handleSubmit} className="space-y-5">
 
           <TextField
