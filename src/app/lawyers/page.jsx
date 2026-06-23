@@ -4,18 +4,23 @@ import React from 'react';
 import FilteredByStatus from '../../components/ui/FilteredByStatus';
 import LawyerCard from '@/components/ui/LawyerCard';
 import EmptyState from '@/components/ui/EmptyState';
+import LawyerPagination from '@/components/ui/LawyerPagination';
 
 
-const LawyersPage = async({searchParams}) => {
+const LawyersPage = async ({ searchParams }) => {
     const params = await searchParams;
     const search = params?.search || ""
     const specialization = params?.specialization || ""
     const status = params?.status || ""
+    const page = params?.page || 1;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers?search=${search}&specialization=${specialization}&status=${status}`,{
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers?search=${search}&specialization=${specialization}&status=${status}&page=${page}&limit=8`, {
         cache: "no-store"
     });
     const data = await res.json();
+    const lawyers = data.lawyers;
+    const totalPages = data.totalPages;
+    const currentPage = data.currentPage;
     console.log(data);
     return (
         <div className='py-10   w-11/12 mx-auto'>
@@ -30,22 +35,28 @@ const LawyersPage = async({searchParams}) => {
             <div className=' flex flex-col md:flex-row gap-4 items-center mt-4'>
                 <SearchBar></SearchBar>
 
-               <div className='md:mt-8 flex items-center'>
-                  <FilteredLayers/>
-                  <FilteredByStatus/>
-               </div>
-             
+                <div className='md:mt-8 flex items-center'>
+                    <FilteredLayers />
+                    <FilteredByStatus />
+                </div>
+
 
             </div>
             {
-                data.length===0 ? <EmptyState/>:
-                <div className='mt-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-                {
-                    data.map(lawyer => <LawyerCard key={lawyer._id} lawyer={lawyer}></LawyerCard>)
-                }
-            </div>
+                lawyers.length === 0 ? <EmptyState /> :
+                    <div className='mt-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                        {
+                            lawyers.map(lawyer => <LawyerCard key={lawyer._id} lawyer={lawyer}></LawyerCard>)
+                        }
+                    </div>
             }
+
+            <LawyerPagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+            />
         </div>
+
     );
 };
 

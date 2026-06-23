@@ -23,7 +23,7 @@ const LawyerDetailsCard = ({ lawyer }) => {
 
                 <div className="flex flex-col md:flex-row gap-8">
 
-                    {/* IMAGE FIXED */}
+                    
                     <div className="flex flex-col items-center md:items-start">
                         <div className="w-24 h-24 relative">
                             <Image
@@ -44,7 +44,6 @@ const LawyerDetailsCard = ({ lawyer }) => {
                         </Chip>
                     </div>
 
-                    {/* INFO */}
                     <div className="flex-1 space-y-4">
 
                         <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -81,7 +80,7 @@ const LawyerDetailsCard = ({ lawyer }) => {
 
                         </div>
 
-                        {/* HIRE BUTTON UPDATED */}
+                     
                         <Button
                             
                             size="lg"
@@ -95,7 +94,7 @@ const LawyerDetailsCard = ({ lawyer }) => {
                 </div>
             </Card>
 
-            {/* STATUS CARD */}
+            
             <div className="mt-10 grid md:grid-cols-2 gap-6">
 
                 <Card className="p-5 border border-default-200">
