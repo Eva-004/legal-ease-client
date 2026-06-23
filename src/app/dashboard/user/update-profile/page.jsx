@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Input, Card, Form, TextField, Label } from "@heroui/react";
-import Image from "next/image";
+import { Button, Input, Card, Form, TextField, Label, Avatar } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
@@ -11,14 +10,14 @@ const UpdateProfile = () => {
   const user = userData?.data?.user;
 
   const [name, setName] = useState("");
-  const [image, setImage] = useState("/images/avatar.webp");
+  const [image, setImage] = useState(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
       setName(user.name || "");
-      setImage(user.image || "/images/avatar.webp");
+      setImage(user.image || null);
     }
   }, [user]);
 
@@ -44,9 +43,7 @@ const UpdateProfile = () => {
 
     const data = await res.json();
 
-    if (data.success) {
-      return data.data.url;
-    }
+    if (data.success) return data.data.url;
 
     throw new Error("Image upload failed");
   };
@@ -56,7 +53,7 @@ const UpdateProfile = () => {
     setLoading(true);
 
     try {
-      let imageUrl = user?.image || "/images/avatar.webp";
+      let imageUrl = user?.image || null;
 
       if (file) {
         imageUrl = await uploadImage(file);
@@ -79,70 +76,103 @@ const UpdateProfile = () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Update failed");
-      }
+      if (!res.ok) throw new Error(data.message || "Update failed");
 
       toast.success("Profile updated successfully!");
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
     } finally {
       setLoading(false);
     }
   };
 
+  // initials helper
+  const getInitials = (name = "") => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-      <Card className="w-full max-w-md shadow-md rounded-2xl p-6">
-        <div className="space-y-5">
-          <h2 className="text-xl font-semibold text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4">
+
+      <Card className="w-full max-w-md p-7 rounded-3xl shadow-xl border border-gray-100 bg-white/80 backdrop-blur-md">
+
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">
             Update Profile
           </h2>
-
-          <div className="flex flex-col items-center gap-3">
-            <Image
-              src={image}
-              width={90}
-              height={90}
-              alt="profile"
-              className="rounded-full border object-cover"
-            />
-
-            <label className="text-sm text-blue-600 cursor-pointer hover:underline">
-              Change Profile Picture
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-            </label>
-          </div>
-
-          <Form onSubmit={handleSubmit} className="w-full space-y-4">
-            <TextField name="name" type="text"  value={name}
-            onValueChange={setName} className="w-full">
-              <Label>Full Name</Label>
-              <Input
-                placeholder="Enter your name"
-                variant="bordered"
-                className="w-full"
-              />
-
-            </TextField>
-
-            <Button
-              type="submit"
-             
-              className="w-full bg-gradient-to-r from-[#1E3A8A] to-[#2563EB]"
-              isLoading={loading}
-            >
-              Update Profile
-            </Button>
-          </Form>
+          <p className="text-sm text-gray-500 mt-1">
+            Keep your profile information up to date
+          </p>
         </div>
+
+        {/* Avatar */}
+        <div className="flex flex-col items-center gap-3 mb-6">
+
+          <Avatar className="w-24 h-24 text-lg font-semibold shadow-md border-4 border-white">
+
+            {/* Image */}
+            {image ? <Avatar.Image src={image} alt={name} /> : null}
+
+            {/* Fallback */}
+            <Avatar.Fallback className="bg-gradient-to-br from-indigo-500 to-blue-600 text-white">
+              {getInitials(name) || "U"}
+            </Avatar.Fallback>
+
+          </Avatar>
+
+          <label className="text-sm text-blue-600 cursor-pointer hover:text-blue-800 transition">
+            Change profile picture
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </label>
+
+          <p className="text-xs text-gray-400">
+            JPG, PNG or WEBP. Max 2MB recommended.
+          </p>
+        </div>
+
+        {/* Form */}
+        <Form onSubmit={handleSubmit} className="space-y-5">
+
+          <TextField
+            name="name"
+            value={name}
+            onValueChange={setName}
+            className="w-full"
+          >
+            <Label className="text-gray-700 font-medium">
+              Full Name
+            </Label>
+
+            <Input
+              placeholder="Enter your full name"
+              variant="bordered"
+              className="mt-1"
+            />
+          </TextField>
+
+          <Button
+            type="submit"
+            isLoading={loading}
+            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium shadow-md hover:shadow-lg transition"
+          >
+            Save Changes
+          </Button>
+
+        </Form>
+
       </Card>
+
     </div>
   );
 };

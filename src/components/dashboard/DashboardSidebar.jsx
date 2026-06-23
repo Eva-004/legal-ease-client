@@ -68,19 +68,19 @@ export default function DashboardSidebar() {
 
   return (
     <>
-      {/* Mobile Button */}
+     
       <Button
-        className="md:hidden block mt-4 ml-4"
+        className="md:hidden mt-4 ml-4"
         variant="secondary"
         onPress={() => setOpen(true)}
       >
         <Bars  />
       </Button>
 
-      {/* Desktop Sidebar */}
+      
       <div className="hidden md:flex bg-[#1E3A8A]  w-60 border-r min-h-screen">
         <div className="w-full p-3">
-          {/* Logo */}
+        
           <div className="flex items-center  gap-3 mb-6">
             <Image
               src="/images/logo.jpg"
@@ -96,15 +96,22 @@ export default function DashboardSidebar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      <Drawer isOpen={open} onOpenChange={setOpen}>
-        <Drawer.Content placement="left">
-          <Drawer.Dialog>
-            <Drawer.Header>
-              <Drawer.Heading>LegalEase</Drawer.Heading>
+      
+      <Drawer isOpen={open} onOpenChange={setOpen}  >
+        <Drawer.Content placement="left" >
+          <Drawer.Dialog className={'bg-[#1E3A8A]'}>
+            <Drawer.Header className="flex flex-row items-center  gap-3 mb-6">
+               <Image
+              src="/images/logo.jpg"
+              width={50}
+              height={50}
+              alt="logo"
+              className="rounded-full"
+            />
+              <Drawer.Heading className="text-white">LegalEase</Drawer.Heading>
             </Drawer.Header>
 
-            <Drawer.Body>
+            <Drawer.Body >
                 {NavList}
             </Drawer.Body>
           </Drawer.Dialog>

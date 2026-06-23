@@ -17,7 +17,7 @@ export default async function DashboardLayout({ children }) {
        <DashboardSidebar/>
       <div className="flex-1 overflow-y-auto">
           <DashboardNavbar role={role}/>
-        <main className="p-5">{children}</main>
+        <main >{children}</main>
       </div>
       </div>
     </div>
