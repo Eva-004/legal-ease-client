@@ -169,7 +169,7 @@ const ManageLegalProfile = () => {
                     {/* Image Section */}
                     <div className="flex flex-col items-center">
 
-                        <Avatar className="w-40 h-40 text-4xl font-bold border-4 border-blue-100 shadow-lg">
+                        <Avatar className="w-40 h-40 object-cover text-4xl font-bold border-4 border-blue-100 shadow-lg">
 
                             {(previewImage || lawyer?.image) ? (
                                 <Avatar.Image
