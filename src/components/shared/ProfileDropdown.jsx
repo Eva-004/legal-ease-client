@@ -1,12 +1,16 @@
+'use client'
+import { authClient } from "@/lib/auth-client";
 import {ArrowRightFromSquare, Gear} from "@gravity-ui/icons";
 import {Avatar, Dropdown, Label} from "@heroui/react";
 const ProfileDropdown = ({handleLogOut,image,name,email,role}) => {
-
+        const userData = authClient.useSession();
+           const user = userData?.data?.user;
+           console.log(user);
     return (
        <Dropdown>
   <Dropdown.Trigger className="rounded-full cursor-pointer">
     <Avatar>
-      <Avatar.Image alt={name} src={image} className="object-cover" />
+      <Avatar.Image alt={name} src={user?.image} className="object-cover" />
       <Avatar.Fallback delayMs={600}>{name?.[0]}</Avatar.Fallback>
     </Avatar>
   </Dropdown.Trigger>

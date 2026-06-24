@@ -31,7 +31,7 @@ const LawyerCard = ({ lawyer }) => {
             {/* Top */}
             <div className="flex justify-between items-start">
                 <Image
-                    src={lawyer.image}
+                    src={lawyer?.image}
                     alt={lawyer.name}
                     width={80}
                     height={80}
@@ -44,7 +44,7 @@ const LawyerCard = ({ lawyer }) => {
                     variant="flat"
                     size="sm"
                 >
-                    {lawyer.status}
+                    {lawyer?.status}
                 </Chip>
 
             </div>
@@ -58,7 +58,7 @@ const LawyerCard = ({ lawyer }) => {
                 <div className="flex items-center gap-2 mt-2 text-default-500">
                     <FcBriefcase size={14} />
                     <span className="text-sm">
-                        {lawyer.specialization}
+                        {lawyer?.specialization}
                     </span>
                 </div>
 
@@ -69,7 +69,7 @@ const LawyerCard = ({ lawyer }) => {
                     />
 
                     <span className="font-medium">
-                        BDT {lawyer.consultationFee}/hour
+                        BDT {lawyer?.consultationFee}/hour
                     </span>
                 </div>
             </div>
