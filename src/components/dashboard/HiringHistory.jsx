@@ -40,7 +40,7 @@ export default function HiringHistory({ hirings }) {
 
   return (
     <div className="w-full space-y-4 overflow-hidden">
-     
+
       <div className="px-4 py-6 sm:px-6 md:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-white/10">
@@ -59,7 +59,7 @@ export default function HiringHistory({ hirings }) {
         </div>
       </div>
 
-      
+
       <Card className="overflow-hidden rounded-3xl border-0 shadow-lg">
         <div className="border-b bg-slate-50 px-4 py-4 sm:px-6 sm:py-5">
           <h2 className="text-base font-semibold text-[#1E3A8A] sm:text-lg">
@@ -74,93 +74,94 @@ export default function HiringHistory({ hirings }) {
         {hirings?.length > 0 ? (
           <div className="w-full overflow-x-auto">
             <Table>
-                
-      <Table.ScrollContainer>
-              <Table.Content
-                aria-label="Hiring History"
-                className="min-w-[850px]"
-              >
-                <Table.Header>
-                  <Table.Column isRowHeader>
-                    LAWYER
-                  </Table.Column>
 
-                  <Table.Column>
-                    SPECIALISATION
-                  </Table.Column>
+              <Table.ScrollContainer>
+                <Table.Content
+                  aria-label="Hiring History"
+                  className="min-w-[850px]"
+                >
+                  <Table.Header>
+                    <Table.Column isRowHeader>
+                      LAWYER
+                    </Table.Column>
 
-                  <Table.Column>
-                    FEE
-                  </Table.Column>
+                    <Table.Column>
+                      SPECIALISATION
+                    </Table.Column>
 
-                  <Table.Column>
-                    HIRING DATE
-                  </Table.Column>
+                    <Table.Column>
+                      FEE
+                    </Table.Column>
 
-                  <Table.Column>
-                    STATUS
-                  </Table.Column>
+                    <Table.Column>
+                      HIRING DATE
+                    </Table.Column>
 
-                  <Table.Column>
-                    ACTION
-                  </Table.Column>
-                </Table.Header>
+                    <Table.Column>
+                      STATUS
+                    </Table.Column>
 
-                <Table.Body>
-                  {hirings.map((hire) => (
-                    <Table.Row key={hire._id}>
-                      <Table.Cell>
-                        <p className="font-medium text-gray-800">
-                          {hire.lawyerName}
-                        </p>
-                      </Table.Cell>
+                    <Table.Column>
+                      ACTION
+                    </Table.Column>
+                  </Table.Header>
 
-                      <Table.Cell>
-                        {hire.specialisation}
-                      </Table.Cell>
+                  <Table.Body>
+                    {hirings.map((hire) => (
+                      <Table.Row key={hire._id}>
+                        <Table.Cell>
+                          <p className="font-medium text-gray-800">
+                            {hire.lawyerName}
+                          </p>
+                        </Table.Cell>
 
-                      <Table.Cell>
-                        <span className="font-semibold text-green-600">
-                          ৳ {hire.fee}
-                        </span>
-                      </Table.Cell>
+                        <Table.Cell>
+                          {hire.specialisation}
+                        </Table.Cell>
 
-                      <Table.Cell>
-                        {new Date(
-                          hire.hiringDate
-                        ).toLocaleDateString()}
-                      </Table.Cell>
-
-                      <Table.Cell>
-                        {getStatusChip(hire.status)}
-                      </Table.Cell>
-
-                      <Table.Cell>
-                        {hire.status?.toLowerCase() ===
-                        "accepted" ? (
-                          <Button
-                            size="sm"
-                            color="success"
-                            radius="full"
-                          >
-                            Pay Now
-                          </Button>
-                        ) : hire.status?.toLowerCase() ===
-                          "pending" ? (
-                          <span className="text-sm font-medium text-amber-500">
-                            Waiting Approval
+                        <Table.Cell>
+                          <span className="font-semibold text-green-600">
+                            BDT {hire.fee}/hr
                           </span>
-                        ) : (
-                          <span className="text-sm font-medium text-red-500">
-                            Unavailable
-                          </span>
-                        )}
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Content> 
-      </Table.ScrollContainer>
+                        </Table.Cell>
+
+                        <Table.Cell>
+                          {new Date(
+                            hire.
+                              createdAt
+                          ).toLocaleDateString()}
+                        </Table.Cell>
+
+                        <Table.Cell>
+                          {getStatusChip(hire.status)}
+                        </Table.Cell>
+
+                        <Table.Cell>
+                          {hire.status?.toLowerCase() ===
+                            "accepted" ? (
+                            <Button
+                              size="sm"
+                              className={'bg-[#1E3A8A]'}
+                              radius="full"
+                            >
+                              Pay Now
+                            </Button>
+                          ) : hire.status?.toLowerCase() ===
+                            "pending" ? (
+                            <span className="text-sm font-medium text-amber-500">
+                              Waiting Approval
+                            </span>
+                          ) : (
+                            <span className="text-sm font-medium text-red-500">
+                              Unavailable
+                            </span>
+                          )}
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table.Content>
+              </Table.ScrollContainer>
             </Table>
           </div>
         ) : (

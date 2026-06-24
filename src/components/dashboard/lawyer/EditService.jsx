@@ -33,7 +33,7 @@ const EditService = ({ handleEditService, service }) => {
                             <Surface variant="default">
                                 <form className="flex flex-col gap-4">
                                     <Input
-                                        // defaultValue={service?.title}
+                                      
                                         placeholder="Example: Family Law Consultation"
                                         value={editedService}
                                         onChange={(e) => setEditedService(e.target.value)}

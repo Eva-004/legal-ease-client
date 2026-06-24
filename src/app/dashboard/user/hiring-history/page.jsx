@@ -18,7 +18,7 @@ const HiringHistoryPage =async () => {
         }
   });
   const HiringData = await res.json();
-   const hirings = HiringData.filter(data => data.userId === user?._id);
+   const hirings = HiringData.filter(data => data.userId === user?.id);
    console.log(hirings)
     return (
         <div>

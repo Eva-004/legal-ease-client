@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const HireConfirmModal = ({ lawyer }) => {
     const userData = authClient.useSession();
         const user = userData?.data?.user;
+        console.log(user);
         const router = useRouter();
     const handleHire = async()=>{
         const { data: tokenData } = await authClient.token();
@@ -21,7 +22,7 @@ const HireConfirmModal = ({ lawyer }) => {
             authorization: `Bearer ${tokenData?.token}`
           },
           body: JSON.stringify({
-            userId:user?._id,
+            userId:user?.id,
             userName: user?.name,
             lawyerId: lawyer._id,
             lawyerName: lawyer.name,
