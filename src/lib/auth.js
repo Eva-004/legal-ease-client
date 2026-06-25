@@ -11,32 +11,32 @@ export const auth = betterAuth({
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client
   }),
-   emailAndPassword: { 
-    enabled: true, 
-  }, 
-   socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-        }, 
+  emailAndPassword: {
+    enabled: true,
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
+  },
   user: {
     additionalFields: {
       role: {
         defaultValue: "user",
       },
-      
+
     },
   },
   session: {
-    cookieCache:{
+    cookieCache: {
       enabled: true,
-      strategy: "jwt" ,
-      maxAge: 7*24*60*60
+      strategy: "jwt",
+      maxAge: 7 * 24 * 60 * 60
     }
   }
   ,
-  plugins:[
+  plugins: [
     jwt()
   ]
 });

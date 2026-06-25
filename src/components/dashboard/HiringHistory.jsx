@@ -38,6 +38,7 @@ export default function HiringHistory({ hirings }) {
     }
   };
 
+
   return (
     <div className="w-full space-y-4 overflow-hidden">
 
@@ -121,7 +122,7 @@ export default function HiringHistory({ hirings }) {
 
                         <Table.Cell>
                           <span className="font-semibold text-green-600">
-                            BDT {hire.fee}/hr
+                            ${hire.fee}/hr
                           </span>
                         </Table.Cell>
 
@@ -139,13 +140,29 @@ export default function HiringHistory({ hirings }) {
                         <Table.Cell>
                           {hire.status?.toLowerCase() ===
                             "accepted" ? (
-                            <Button
-                              size="sm"
-                              className={'bg-[#1E3A8A]'}
-                              radius="full"
-                            >
-                              Pay Now
-                            </Button>
+                            <form action={'/api/payment'} method="POST">
+                              <input type="hidden" name="price" value={hire.fee} />
+                              <input type="hidden" name="title" value={hire.lawyerName} />
+                              <input type="hidden" name="lawyerId" value={hire.lawyerId} />
+                              <input
+                                type="hidden"
+                                name="hiringId"
+                                value={hire._id}
+                              />
+                              <Button
+                                type="submit"
+                                size="sm"
+                                className={
+                                  hire.paymentStatus === "paid"
+                                    ? "bg-gray-600 text-white"
+                                    : "bg-[#1E3A8A] text-white"
+                                }
+                                radius="full"
+                                disabled={hire.paymentStatus === "paid"}
+                              >
+                                {hire.paymentStatus === "paid" ? "Paid" : "Pay Now"}
+                              </Button>
+                            </form>
                           ) : hire.status?.toLowerCase() ===
                             "pending" ? (
                             <span className="text-sm font-medium text-amber-500">
