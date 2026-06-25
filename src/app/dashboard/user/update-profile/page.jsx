@@ -158,7 +158,7 @@ const UpdateProfile = () => {
             <Input
               placeholder="Enter your full name"
               variant="bordered"
-              className="mt-1"
+              className="mt-1 w-full"
             />
           </TextField>
 

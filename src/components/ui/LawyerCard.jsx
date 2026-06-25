@@ -69,7 +69,7 @@ const LawyerCard = ({ lawyer }) => {
                     />
 
                     <span className="font-medium">
-                        BDT {lawyer?.consultationFee}/hour
+                        $ {lawyer?.consultationFee}/hour
                     </span>
                 </div>
             </div>

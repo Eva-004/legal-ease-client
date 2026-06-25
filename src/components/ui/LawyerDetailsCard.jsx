@@ -14,9 +14,12 @@ import {
 import { MdVerified } from "react-icons/md";
 import Image from "next/image";
 import HireConfirmModal from "./HireConfirmModal";
+import UserComment from "./UserComment";
+import { authClient } from "@/lib/auth-client";
 
 const LawyerDetailsCard = ({ lawyer }) => {
-       
+    const userData = authClient.useSession();
+    const user = userData?.data?.user;
     return (
         <div className="w-11/12 mx-auto py-10">
 
@@ -24,7 +27,7 @@ const LawyerDetailsCard = ({ lawyer }) => {
 
                 <div className="flex flex-col md:flex-row gap-8">
 
-                    
+
                     <div className="flex flex-col items-center md:items-start">
                         <div className="w-24 h-24 relative">
                             <Image
@@ -67,7 +70,7 @@ const LawyerDetailsCard = ({ lawyer }) => {
                             <div className="flex items-center gap-2">
                                 <FaMoneyBillWave className="text-green-500" />
                                 <span className="font-semibold">
-                                    BDT {lawyer.consultationFee}/hour
+                                    $ {lawyer.consultationFee}/hour
                                 </span>
                             </div>
 
@@ -81,29 +84,40 @@ const LawyerDetailsCard = ({ lawyer }) => {
 
                         </div>
 
-                     <HireConfirmModal lawyer={lawyer}/>
-                       
+                        <div className="mt-5">
+                            <h3 className="font-semibold text-lg mb-3 text-[#1E3A8A]">
+                                Other Services
+                            </h3>
+
+                            {lawyer?.services?.length > 0 ? (
+                                <div className="flex flex-wrap gap-2">
+                                    {lawyer.services.map((service, index) => (
+                                        <Chip
+                                            key={index}
+                                            color="primary"
+                                            variant="flat"
+                                        >
+                                            {service.title}
+                                        </Chip>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-gray-500 italic text-sm">
+                                    No extra services available yet.
+                                </p>
+                            )}
+                        </div>
+                        {user && <HireConfirmModal lawyer={lawyer} />}
+
 
                     </div>
                 </div>
             </Card>
 
-            
-            <div className="mt-10 grid md:grid-cols-2 gap-6">
+            {
+                user && <UserComment lawyer={lawyer} />
+            }
 
-                <Card className="p-5 border border-default-200">
-                    <h3 className="text-xl font-semibold mb-3">
-                        Availability
-                    </h3>
-
-                    <p className="text-gray-500">
-                        {lawyer.status === 'Busy'
-                            ? "Currently busy with ongoing cases"
-                            : "Available for new clients"}
-                    </p>
-                </Card>
-
-            </div>
         </div>
     );
 };

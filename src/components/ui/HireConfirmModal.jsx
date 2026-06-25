@@ -8,45 +8,49 @@ import { toast } from "react-toastify";
 
 const HireConfirmModal = ({ lawyer }) => {
     const userData = authClient.useSession();
-        const user = userData?.data?.user;
-        console.log(user);
-        const router = useRouter();
-    const handleHire = async()=>{
+    const user = userData?.data?.user;
+    console.log(user);
+    const router = useRouter();
+    const handleHire = async () => {
         const { data: tokenData } = await authClient.token();
-         const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/hire-lawyer`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${tokenData?.token}`
-          },
-          body: JSON.stringify({
-            userId:user?.id,
-            userName: user?.name,
-            lawyerId: lawyer._id,
-            lawyerName: lawyer.name,
-            fee: lawyer.consultationFee,
-            specialization: lawyer.specialization,
-          }),
-        }
-      );
-      if (res.ok) {
-              toast.success("Requested hiring successfully!")
-           router.push('/dashboard/user/hiring-history')
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/hire-lawyer`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${tokenData?.token}`
+                },
+                body: JSON.stringify({
+                    userId: user?.id,
+                    userName: user?.name,
+                    lawyerId: lawyer._id,
+                    lawyerName: lawyer.name,
+                    fee: lawyer.consultationFee,
+                    specialization: lawyer.specialization,
+                }),
+            }
+        );
+        if (res.ok) {
+            toast.success("Requested hiring successfully!")
+            router.push('/dashboard/user/hiring-history')
         }
         else {
-             toast.error("Failed to hiring request!")
+            toast.error("Failed to hiring request!")
         }
     }
     return (
         <Modal>
             <Button
+                isDisabled={lawyer?.status === "busy"}
                 size="lg"
-                className="mt-6 bg-[#1E3A8A] font-semibold flex items-center gap-2"
+                className={`mt-6 ${lawyer?.status === "busy"
+                        ? "bg-gray-600"
+                        : "bg-[#1E3A8A]"
+                    } font-semibold flex items-center gap-2`}
             >
                 <FaHandHoldingHeart className="text-pink-200" />
-                Hire Lawyer
+                {lawyer?.status === "busy" ? "Hired" : "Hire Lawyer"}
             </Button>
             <Modal.Backdrop>
                 <Modal.Container>
@@ -60,12 +64,12 @@ const HireConfirmModal = ({ lawyer }) => {
                         </Modal.Header>
                         <Modal.Body>
                             <p className="text-sm text-gray-600">
-                  Are you sure you want to hire{" "}
-                  <span className="font-semibold">{lawyer.name}</span>?
-                </p>
+                                Are you sure you want to hire{" "}
+                                <span className="font-semibold">{lawyer.name}</span>?
+                            </p>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button  onClick={handleHire} className="w-full bg-[#1E3A8A]" slot="close">
+                            <Button onClick={handleHire} className="w-full bg-[#1E3A8A]" slot="close">
                                 Confirm Hire
                             </Button>
                         </Modal.Footer>
