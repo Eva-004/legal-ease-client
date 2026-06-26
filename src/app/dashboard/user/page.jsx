@@ -1,8 +1,27 @@
+import UserAllTransaction from "@/components/dashboard/UserAllTransaction";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { FaGavel, FaBalanceScale, FaArrowRight } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
 
-export default function UserDashboardPage() {
+export default async function UserDashboardPage() {
+  const session = await auth.api.getSession({
+          headers: await headers(),
+        });
+      const user = session?.user
+      const {token} = await auth.api.getToken({
+          headers: await headers()
+      })
+      console.log(token);
+       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/transaction`,{
+            headers: {
+             authorization: `Bearer ${token}`
+          }
+    });
+    const transactionData = await res.json();
+    const transactions = transactionData.filter(data => data.userId === user?.id)
+    console.log(transactions)
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-full  border border-slate-200 bg-slate-50 p-8 md:p-12 shadow-sm">
@@ -11,7 +30,7 @@ export default function UserDashboardPage() {
      
           <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-blue-700 mb-6">
             <HiSparkles className="text-lg" />
-            <span className="text-sm font-medium">
+            <span className="text-[12px] sm:text-sm sm:font-medium ">
               Welcome to LegalEase
             </span>
           </div>
@@ -61,12 +80,7 @@ export default function UserDashboardPage() {
           </div>
 
        
-          <Link href={'/lawyers'}>
-           <button  className="mt-10 flex items-center gap-3 rounded-2xl bg-[#1E3A8A] px-6 py-3 text-white font-medium transition cursor-pointer hover:bg-[#1a3278]">
-            Explore Lawyers
-            <FaArrowRight />
-          </button>
-          </Link>
+         <UserAllTransaction transactions={transactions}/>
         </div>
 
       </div>

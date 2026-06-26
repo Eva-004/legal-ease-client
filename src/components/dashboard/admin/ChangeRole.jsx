@@ -4,8 +4,8 @@ import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 
-const EditComment = ({handleCommentEdit,commentData}) => {
-    const [editedComment, setEditedComment] = useState(commentData?.comment || "");
+const ChangeRole = ({handleRoleChange,user}) => {
+    const [editedRole, setRole] = useState(user?.role || "");
     return (
         <div>
             <Modal>
@@ -18,7 +18,7 @@ const EditComment = ({handleCommentEdit,commentData}) => {
                     variant="flat"
                 >
                     <FaEdit />
-                    Edit
+                   Change Role
                 </Button>
                 <Modal.Backdrop>
                     <Modal.Container placement="auto">
@@ -26,7 +26,7 @@ const EditComment = ({handleCommentEdit,commentData}) => {
                             <Modal.CloseTrigger />
                             <Modal.Header>
                                 
-                                <Modal.Heading>Edit Comment</Modal.Heading>
+                                <Modal.Heading>Change Role</Modal.Heading>
 
                             </Modal.Header>
                             <Modal.Body className="p-6">
@@ -34,16 +34,16 @@ const EditComment = ({handleCommentEdit,commentData}) => {
                                     <form className="flex flex-col gap-4">
                                         <Input
 
-                                            placeholder="Example: Hello"
-                                            value={editedComment}
-                                            onChange={(e) => setEditedComment(e.target.value)}
+                                            placeholder="Example: user"
+                                            value={editedRole}
+                                            onChange={(e) => setRole(e.target.value)}
 
                                         />
                                         <div className="flex items-center gap-2">
                                             <Button slot="close" variant="secondary">
                                                 Cancel
                                             </Button>
-                                            <Button onClick={() => handleCommentEdit(commentData._id, editedComment)} slot="close">Edit</Button>
+                                            <Button onClick={() => handleRoleChange(user._id, editedRole)} slot="close">Change</Button>
                                         </div>
                                     </form>
                                 </Surface>
@@ -59,4 +59,4 @@ const EditComment = ({handleCommentEdit,commentData}) => {
     );
 };
 
-export default EditComment;
+export default ChangeRole;
