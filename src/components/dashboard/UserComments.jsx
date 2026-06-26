@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, Button } from "@heroui/react";
 import {
   FaEdit,
@@ -8,8 +8,75 @@ import {
   FaCommentDots,
   FaUserTie,
 } from "react-icons/fa";
+import EditComment from "./EditComment";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import DeleteComment from "./DeleteComment";
 
 const UserComments = ({ comments }) => {
+  const router = useRouter();
+      const [comment, setComment] = useState("");
+      const [loading, setLoading] = useState(false);
+      const session = authClient.useSession();
+      const user = session?.data?.user;
+  const handleCommentEdit=async(id ,updatedComment)=>{
+setLoading(true);
+
+        const { data: tokenData } = await authClient.token();
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenData.token}`,
+                },
+                body: JSON.stringify({
+                    comment: updatedComment
+                }),
+            }
+        );
+
+        const data = await res.json();
+
+        if (res.ok) {
+            toast.success("Comment Edit Successfully");
+
+            setComment("");
+            setLoading(false);
+            router.refresh();
+        } else {
+            toast.error("Something went wrong");
+        }
+  }
+   const handleDeleteComment = async(id)=>{
+           setLoading(true);
+  
+          const { data: tokenData } = await authClient.token();
+          const res = await fetch(
+              `${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`,
+              {
+                  method: "DELETE",
+                  headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${tokenData.token}`,
+                  }
+              }
+          );
+  
+          const data = await res.json();
+  
+          if (res.ok) {
+              toast.success("Comment Deleted Successfully");
+  
+              setComment("");
+              setLoading(false);
+              router.refresh();
+          } else {
+              toast.error("Something went wrong");
+          }
+      }
   return (
     <Card className="rounded-none p-4 sm:p-6 shadow-xl">
       {/* Header */}
@@ -105,22 +172,10 @@ const UserComments = ({ comments }) => {
 
                     {/* Actions */}
                     <td className="py-5">
-                      <div className="flex justify-center gap-3">
-                        <Button
-                          size="sm"
-                          className="bg-cyan-600 text-white font-semibold"
-                        >
-                          <FaEdit />
-                          Edit
-                        </Button>
+                      <div className="flex justify-center gap-8">
+                        <EditComment handleCommentEdit={handleCommentEdit} commentData={comment}/>
 
-                        <Button
-                          size="sm"
-                          className="bg-red-600 text-white font-semibold"
-                        >
-                          <FaTrashAlt />
-                          Delete
-                        </Button>
+                        <DeleteComment handleDeleteComment={handleDeleteComment} commentData={comment}/>
                       </div>
                     </td>
                   </tr>
@@ -169,21 +224,9 @@ const UserComments = ({ comments }) => {
 
                 {/* Actions */}
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <Button
-                    size="sm"
-                    className="bg-cyan-600 text-white font-semibold w-full"
-                  >
-                    <FaEdit />
-                    Edit
-                  </Button>
+                 <EditComment handleCommentEdit={handleCommentEdit} commentData={comment}/>
 
-                  <Button
-                    size="sm"
-                    className="bg-red-600 text-white font-semibold w-full"
-                  >
-                    <FaTrashAlt />
-                    Delete
-                  </Button>
+                  <DeleteComment handleDeleteComment={handleDeleteComment} commentData={comment}/>
                 </div>
               </div>
             ))}

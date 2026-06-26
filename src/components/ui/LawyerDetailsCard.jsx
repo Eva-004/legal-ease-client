@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Chip, Button } from "@heroui/react";
 
 import {
@@ -17,9 +17,33 @@ import HireConfirmModal from "./HireConfirmModal";
 import UserComment from "./UserComment";
 import { authClient } from "@/lib/auth-client";
 
-const LawyerDetailsCard = ({ lawyer }) => {
+const LawyerDetailsCard = ({ lawyer ,id}) => {
     const userData = authClient.useSession();
     const user = userData?.data?.user;
+    const [canComment, setCanComment] = useState(false);
+
+    useEffect(() => {
+        if (!user) return;
+
+        const fetchCanComment = async () => {
+            const { data: tokenData } = await authClient.token();
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/can-comment/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${tokenData.token}`,
+                    },
+                }
+            );
+
+            const data = await res.json();
+            setCanComment(data.canComment);
+        };
+
+        fetchCanComment();
+    }, [user, lawyer]);
+
     return (
         <div className="w-11/12 mx-auto py-10">
 
@@ -50,7 +74,7 @@ const LawyerDetailsCard = ({ lawyer }) => {
 
                     <div className="flex-1 space-y-4">
 
-                        <h1 className="text-3xl font-bold flex items-center gap-2">
+                        <h1 className="sm:text-3xl text-md font-bold flex items-center gap-2">
                             <FaUserTie className="text-[#1E3A8A]" />
                             {lawyer.name}
                             <MdVerified className="text-green-500" />
@@ -115,7 +139,9 @@ const LawyerDetailsCard = ({ lawyer }) => {
             </Card>
 
             {
-                user && <UserComment lawyer={lawyer} />
+                user && canComment && (
+                    <UserComment lawyer={lawyer} />
+                )
             }
 
         </div>
