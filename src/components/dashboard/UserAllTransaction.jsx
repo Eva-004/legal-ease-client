@@ -25,7 +25,7 @@ const UserAllTransaction = ({ transactions }) => {
         </div>
       </div>
 
-      <Table removeWrapper>
+      <Table >
         <Table.ScrollContainer>
           <Table.Content
             aria-label="Transaction History"

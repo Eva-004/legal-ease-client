@@ -38,9 +38,6 @@ const Login = () => {
       if(error){
         toast.error(error)
        }
-       else{
-        toast.success("Login successfully!")
-       }
        
       }
 
@@ -99,19 +96,21 @@ const Login = () => {
                     >
                         Login
                     </Button>
-
                     <div className="flex items-center gap-3">
                         <div className="h-px bg-slate-300 flex-1" />
                         <span className="text-sm text-slate-500">OR</span>
                         <div className="h-px bg-slate-300 flex-1" />
                     </div>
+                </form>
+                
+                    
 
                     <button onClick={handleGoogleSignIn}
                         type="button"
-                        className="w-full flex items-center justify-center gap-2 border py-3 rounded-lg hover:bg-slate-50 transition"
+                        className="w-full flex items-center cursor-pointer my-2 justify-center gap-2 border py-3 rounded-lg hover:bg-slate-50 transition"
                     >
                         <FcGoogle className="text-xl" />
-                        Continue with Google
+                        Continue with Google 
                     </button>
 
                     <p className="text-center text-sm text-slate-600">
@@ -120,7 +119,6 @@ const Login = () => {
                             Register
                         </Link>
                     </p>
-                </form>
             </motion.div>
 
         </section>

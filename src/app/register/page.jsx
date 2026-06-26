@@ -39,7 +39,7 @@ const Register = () => {
             toast.error("Passwords do not match");
             return;
         }
-        toast.success("Register complete successfully!")
+        
     }
 
     return (
@@ -174,18 +174,19 @@ const Register = () => {
                         <div className="h-px bg-slate-300 flex-1" />
                     </div>
 
-                    <button onClick={handleGoogleSignIn} className="w-full flex items-center justify-center gap-2 border py-3 rounded-lg cursor-pointer">
+                    
+                </Form>
+                <button onClick={handleGoogleSignIn} className="w-full flex my-2 items-center justify-center gap-2 border py-3 rounded-lg cursor-pointer">
                         <FcGoogle className="text-xl" />
-                        Continue with Google
+                        Continue with Google 
                     </button>
 
-                    <p className="text-center text-sm">
+                    <p className="text-center text-sm ">
                         Already have account?{" "}
                         <Link href="/login" className="text-blue-600">
                             Login
                         </Link>
                     </p>
-                </Form>
             </motion.div>
         </section>
     );

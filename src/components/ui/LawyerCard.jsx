@@ -30,14 +30,20 @@ const LawyerCard = ({ lawyer }) => {
         >
             {/* Top */}
             <div className="flex justify-between items-start">
-                <Image
+                {
+                    lawyer?.image?.trim() ? <Image
                     src={lawyer?.image}
                     alt={lawyer.name}
                     width={80}
                     height={80}
                     className="w-20 h-20 rounded-full border object-cover"
-                />
-
+                /> :
+                <Avatar
+                    src={lawyer?.image}
+                    name={lawyer?.name}
+                    className="w-20 h-20 rounded-full border object-cover"
+                /> 
+                }
 
                 <Chip
                     color="danger"
@@ -72,7 +78,7 @@ const LawyerCard = ({ lawyer }) => {
                         $ {lawyer?.consultationFee}/hour
                     </span>
                     <span className="font-medium">
-                      Total Hire: {lawyer?.totalHire || '0' }
+                        Total Hire: {lawyer?.totalHire || '0'}
                     </span>
                 </div>
             </div>

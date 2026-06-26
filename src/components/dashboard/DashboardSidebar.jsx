@@ -21,14 +21,10 @@ import { RxDashboard } from "react-icons/rx";
 
 
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({role}) {
   
   const [open, setOpen] = useState(false);
  
-   const userData = authClient.useSession();
-      const user = userData?.data?.user;
-  const role = user?.role??"user";
-  const isPending = userData?.isPending;
   const dashboardItems = {
    user: [
     { icon: RxDashboard, label: "Dashboard", href: "/dashboard/user" },
@@ -50,11 +46,7 @@ export default function DashboardSidebar() {
     { icon: FaChartLine, label: "Analytics", href: "/dashboard/admin/analytics" },
   ],
 };
-if (isPending) {
-  return (
-    <div className="hidden md:flex w-60 min-h-screen bg-[#1E3A8A]" />
-  );
-}
+
   const navItems = dashboardItems[role] || dashboardItems.user;
 
   const NavList = <>

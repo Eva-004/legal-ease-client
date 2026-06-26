@@ -23,7 +23,7 @@ const ManageLegalProfile = () => {
     const [uploading, setUploading] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
 
-   
+
 
     useEffect(() => {
         if (user?.email) {
@@ -111,28 +111,10 @@ const ManageLegalProfile = () => {
             const imageUrl = uploaded.data.url;
 
             // Get auth token
-            const { data: tokenData } = await authClient.token();
-
-            // Update same user document
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update-profile`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        authorization: `Bearer ${tokenData?.token}`,
-                    },
-                    body: JSON.stringify({
-                        email: user.email,
-                        name: user.name,
-                        image: imageUrl,
-                    }),
-                }
-            );
-
-            if (!res.ok) {
-                throw new Error("Profile update failed");
-            }
+            await authClient.updateUser({
+                
+                image: imageUrl,
+            });
 
             // Update local state
             setLawyer((prev) => ({
@@ -222,7 +204,7 @@ const ManageLegalProfile = () => {
                                     defaultValue={lawyer?.specialization || ""}
                                 >
                                     <Label>Specialization</Label>
-                                    <Input placeholder="Property Law" />
+                                    <Input placeholder="Example: Property Law" />
                                 </TextField>
 
                                 <TextField
@@ -230,7 +212,7 @@ const ManageLegalProfile = () => {
                                     name="consultationFee"
                                     defaultValue={lawyer?.consultationFee || ""}
                                 >
-                                    <Label>Consultation Fee (BDT/hour)</Label>
+                                    <Label>Consultation Fee ($/hour)</Label>
                                     <Input placeholder="500" />
                                 </TextField>
 

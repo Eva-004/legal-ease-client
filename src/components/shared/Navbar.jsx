@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Button } from "@heroui/react";
 import ProfileDropdown from "./ProfileDropdown";
+import NavbarSearchBar from "./NavbarSearchbar";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -99,14 +100,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden md:flex flex-1 max-w-md mx-8">
-                        <div className="relative w-full">
-                            <IoSearchOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder="Search lawyers..."
-                                className="w-full pl-11 pr-4 py-3 rounded-xl border"
-                            />
-                        </div>
+                        <NavbarSearchBar/>
                     </div>
 
                    {!user &&
