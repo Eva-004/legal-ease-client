@@ -71,6 +71,9 @@ const LawyerCard = ({ lawyer }) => {
                     <span className="font-medium">
                         $ {lawyer?.consultationFee}/hour
                     </span>
+                    <span className="font-medium">
+                      Total Hire: {lawyer?.totalHire || '0' }
+                    </span>
                 </div>
             </div>
 
